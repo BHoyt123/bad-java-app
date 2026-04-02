@@ -48,13 +48,15 @@ public class BenchmarkTest00006 extends HttpServlet {
 
         // URL Decode the header value since req.getHeader() doesn't. Unlike req.getParameter().
         param = java.net.URLDecoder.decode(param, "UTF-8");
-
+        // Sanitization
+        param = param.replaceAll("[^a-zA-Z0-9 _-]", "");
+        
         java.util.List<String> argList = new java.util.ArrayList<String>();
 
         String osName = System.getProperty("os.name");
         if (osName.indexOf("Windows") != -1) {
-            argList.add("/path/to/myCommand");
-           
+            argList.add("cmd.exe");
+            argList.add("/c");
         } else {
             argList.add("sh");
             argList.add("-c");
